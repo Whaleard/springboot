@@ -3,6 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<!--
+		spring-boot-dependencies是Maven BOM（Bill of Materials）‌，
+		其本质作用仅为‌统一声明依赖版本‌（放入<dependencyManagement>），‌不会自动将jar包引入到classpath‌。
+		若未在子模块的<dependencies>中显式声明对应依赖，或声明方式错误，则无法使用。
+	-->
 	<groupId>com.example</groupId>
 	<artifactId>springboot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
