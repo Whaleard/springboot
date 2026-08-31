@@ -1,12 +1,16 @@
 package com.example.springboot;
 
+import com.example.springboot.bean.Pet;
+import com.example.springboot.bean.User;
+import com.example.springboot.config.MyConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * 主程序类
  *
- * @SpringBootApplication是SpringBoot项目的核心启动注解，标注在主启动类上。
+ * @SpringBootApplication注解是SpringBoot项目的核心启动注解，标注在主启动类上。
  * 它是一个组合注解，替代原本需要的三个注解，主要用来简化配置
  *  1、开启自动配置‌：内部包含@EnableAutoConfiguration，SpringBoot会根据引入的jar包自动配置数据源、Redis等Bean，无需手动编写大量配置文件。
  *  2、标记配置类‌：内部包含@SpringBootConfiguration，本质上是@Configuration，标识该类为Spring配置类，可以定义Bean。
@@ -17,7 +21,27 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringbootApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringbootApplication.class, args);
+		// 1、返回IOC容器
+		ConfigurableApplicationContext run = SpringApplication.run(SpringbootApplication.class, args);
+
+		// 2、查看容器里面的组件
+		String[] names = run.getBeanDefinitionNames();
+		for (String name : names) {
+			System.out.println(name);
+		}
+
+		// 3、从容器中获取组件
+		Pet tom = run.getBean("tom", Pet.class);
+		Pet tom2 = run.getBean("tom", Pet.class);
+		System.out.println("tom == tom2: " + (tom == tom2));
+
+		// 当proxyBeanMethods为true时，Spring会为配置类生成CGLIB代理对象
+		MyConfig bean = run.getBean(MyConfig.class);
+		System.out.println(bean);
+
+		User user = bean.initUser();
+		User user2 = bean.initUser();
+		System.out.println("user == user2: " + (user == user2));
 	}
 
 }
