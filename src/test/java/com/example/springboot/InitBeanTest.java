@@ -1,5 +1,6 @@
 package com.example.springboot;
 
+import com.example.springboot.bean.Car;
 import com.example.springboot.bean.Pet;
 import com.example.springboot.bean.User;
 import com.example.springboot.config.MyConfig;
@@ -72,5 +73,16 @@ class InitBeanTest {
 
 		boolean pet1 = run.containsBean("pet1");
 		System.out.println("容器中定义了pet1组件：" + pet1);
+	}
+
+	/**
+	 * 测试@ConfigurationProperties与@EnableConfigurationProperties注解
+	 */
+	@Test
+	public void test05() {
+		ConfigurableApplicationContext run = SpringApplication.run(SpringbootApplication.class);
+
+		Car car = run.getBean("car-com.example.springboot.bean.Car", Car.class);
+		System.out.println(car);
 	}
 }
