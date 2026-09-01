@@ -1,8 +1,10 @@
 package com.example.springboot.config;
 
+import com.example.springboot.bean.Car;
 import com.example.springboot.bean.Pet;
 import com.example.springboot.bean.User;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -27,10 +29,15 @@ import org.springframework.context.annotation.ImportResource;
  *
  * @Import注解的作用是给容器中自动创建出指定的组件，默认组件名称是全类名。
  * @ImportResource注解的作用是导入Spring的配置文件，支持XML配置。
+ * @EnableConfigurationProperties注解的作用是开启类的属性配置功能，并把该类自动注册到容器中。
+ *  @EnableConfigurationProperties注册Bean名称规则取决于目标类上@ConfigurationProperties注解的prefix属性值。
+ *      1、若prefix未指定，则注册Bean名称为全类名。
+ *      2、若prefix已指定，则注册Bean名称为prefix值+目标类全类名，中间用"-"连接。
  */
 @Import({User.class})
 @Configuration(proxyBeanMethods = true)
 @ImportResource("classpath:bean.xml")
+@EnableConfigurationProperties(Car.class)
 public class MyConfig {
 
     /**
