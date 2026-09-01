@@ -1,11 +1,7 @@
 package com.example.springboot;
 
-import com.example.springboot.bean.Pet;
-import com.example.springboot.bean.User;
-import com.example.springboot.config.MyConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * 主程序类
@@ -21,27 +17,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class SpringbootApplication {
 
 	public static void main(String[] args) {
-		// 1、返回IOC容器
-		ConfigurableApplicationContext run = SpringApplication.run(SpringbootApplication.class, args);
-
-		// 2、查看容器里面的组件
-		String[] names = run.getBeanDefinitionNames();
-		for (String name : names) {
-			System.out.println(name);
-		}
-
-		// 3、从容器中获取组件
-		Pet tom = run.getBean("tom", Pet.class);
-		Pet tom2 = run.getBean("tom", Pet.class);
-		System.out.println("tom == tom2: " + (tom == tom2));
-
-		// 当proxyBeanMethods为true时，Spring会为配置类生成CGLIB代理对象
-		MyConfig bean = run.getBean(MyConfig.class);
-		System.out.println(bean);
-
-		User user = bean.initUser();
-		User user2 = bean.initUser();
-		System.out.println("user == user2: " + (user == user2));
+		SpringApplication.run(SpringbootApplication.class, args);
 	}
 
 }
