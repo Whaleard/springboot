@@ -2,6 +2,7 @@ package com.example.springboot.config;
 
 import com.example.springboot.bean.Pet;
 import com.example.springboot.bean.User;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -41,6 +42,13 @@ public class MyConfig {
         return new User("张三", 18);
     }
 
+    /**
+     * @ConditionalOnBean注解的作用是：当容器中存在指定的组件时，当前组件才被注册到容器中
+     *
+     * @param
+     * @return
+     */
+    @ConditionalOnBean(name = "initUser")
     @Bean("tom")
     public Pet initPet() {
         return new Pet("tomcat");
