@@ -59,4 +59,18 @@ class InitBeanTest {
 		boolean tom = run.containsBean("tom");
 		System.out.println("容器中定义了tom组件：" + tom);
 	}
+
+	/**
+	 * 测试@ImportResource注解
+	 */
+	@Test
+	public void test04() {
+		ConfigurableApplicationContext run = SpringApplication.run(SpringbootApplication.class);
+
+		boolean user1 = run.containsBean("user1");
+		System.out.println("容器中定义了user1组件：" + user1);
+
+		boolean pet1 = run.containsBean("pet1");
+		System.out.println("容器中定义了pet1组件：" + pet1);
+	}
 }

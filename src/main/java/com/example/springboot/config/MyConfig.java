@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 
 /**
  * 1、配置类里面使用@Bean标注在方法上给容器注册组件，默认也是单实例的
@@ -25,9 +26,11 @@ import org.springframework.context.annotation.Import;
  *          4、配置类组件之间无依赖关系，用Lite模式加速容器启动过程，减少判断。
  *
  * @Import注解的作用是给容器中自动创建出指定的组件，默认组件名称是全类名。
+ * @ImportResource注解的作用是导入Spring的配置文件，支持XML配置。
  */
 @Import({User.class})
 @Configuration(proxyBeanMethods = true)
+@ImportResource("classpath:bean.xml")
 public class MyConfig {
 
     /**
