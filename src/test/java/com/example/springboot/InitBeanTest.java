@@ -1,6 +1,8 @@
 package com.example.springboot;
 
 import com.example.springboot.bean.Pet;
+import com.example.springboot.bean.User;
+import com.example.springboot.config.MyConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,5 +30,22 @@ class InitBeanTest {
 		Pet tom2 = run.getBean("tom", Pet.class);
 		// Spring容器默认是单例模式
 		System.out.println("tom == tom2: " + (tom == tom2));
+	}
+
+	/**
+	 * 测试@Configuration注解的proxyBeanMethods属性
+	 */
+	@Test
+	public void test02() {
+		ConfigurableApplicationContext run = SpringApplication.run(SpringbootApplication.class);
+
+		// 当proxyBeanMethods为true时，Spring会为配置类生成CGLIB代理对象，此处的bean即为MyConfig类的代理对象
+		MyConfig bean = run.getBean(MyConfig.class);
+		System.out.println(bean);
+
+		// 调用配置类中被@Bean注解标记的方法会被代理对象拦截，不会创建新的Bean实例，而是返回已创建的实例
+		User user = bean.initUser();
+		User user2 = bean.initUser();
+		System.out.println("user == user2: " + (user == user2));
 	}
 }
