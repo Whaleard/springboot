@@ -48,4 +48,15 @@ class InitBeanTest {
 		User user2 = bean.initUser();
 		System.out.println("user == user2: " + (user == user2));
 	}
+
+	/**
+	 * 测试@ConditionalOnBean注解
+	 */
+	@Test
+	public void test03() {
+		ConfigurableApplicationContext run = SpringApplication.run(SpringbootApplication.class);
+
+		boolean tom = run.containsBean("tom");
+		System.out.println("容器中定义了tom组件：" + tom);
+	}
 }
