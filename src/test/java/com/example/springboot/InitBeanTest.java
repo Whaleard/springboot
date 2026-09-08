@@ -1,5 +1,6 @@
 package com.example.springboot;
 
+import com.example.SpringbootApplication;
 import com.example.springboot.bean.Car;
 import com.example.springboot.bean.Pet;
 import com.example.springboot.bean.User;
