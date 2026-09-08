@@ -28,4 +28,14 @@ public class SendMessage {
         rabbitTemplate.convertAndSend("X", "XA", "消息来自ttl为10s的队列" + message);
         rabbitTemplate.convertAndSend("X", "XB", "消息来自ttl为40s的队列" + message);
     }
+
+    @RequestMapping("/sendExpirationMsg")
+    public void sendExpirationMsg(@RequestParam("message") String message, @RequestParam("ttlTime") String ttlTime) {
+        log.info("当前时间：{}，发送一条时长{}毫秒的TTL消息给队列QC：{}", TimeUtil.getCurrentTimeToString(), ttlTime, message);
+        rabbitTemplate.convertAndSend("X", "XC", message, msg -> {
+            // 发送消息设置TTL
+            msg.getMessageProperties().setExpiration(ttlTime);
+            return msg;
+        });
+    }
 }

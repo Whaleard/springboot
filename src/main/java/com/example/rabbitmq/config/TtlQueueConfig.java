@@ -32,6 +32,11 @@ public class TtlQueueConfig {
     public static final String Y_DEAD_LETTER_QUEUE = "QD";
 
     /**
+     * 普通队列名称
+     */
+    public static final String X_QUEUE_C = "QC";
+
+    /**
      * 声明普通交换机
      * @return
      */
@@ -95,6 +100,21 @@ public class TtlQueueConfig {
     }
 
     /**
+     * 声明普通队列QC
+     * @return
+     */
+    @Bean("queueC")
+    public Queue queueC() {
+        return QueueBuilder
+                .durable(X_QUEUE_C)
+                // 设置死信交换机
+                .withArgument("x-dead-letter-exchange", Y_DEAD_LETTER_EXCHANGE)
+                // 设置死信路由键
+                .withArgument("x-dead-letter-routing-key", "YD")
+                .build();
+    }
+
+    /**
      * 将队列QA绑定到交换机X
      */
     @Bean
@@ -125,5 +145,13 @@ public class TtlQueueConfig {
                 .bind(queueD)
                 .to(yExchange)
                 .with("YD");
+    }
+
+    @Bean
+    public Binding queueCBindingX(Queue queueC, DirectExchange xExchange) {
+        return BindingBuilder
+                .bind(queueC)
+                .to(xExchange)
+                .with("XC");
     }
 }
