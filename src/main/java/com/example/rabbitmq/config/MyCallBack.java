@@ -1,6 +1,7 @@
 package com.example.rabbitmq.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import javax.annotation.PostConstruct;
 
 @Slf4j
 @Component
-public class MyCallBack implements RabbitTemplate.ConfirmCallback {
+public class MyCallBack implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnCallback {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -18,6 +19,7 @@ public class MyCallBack implements RabbitTemplate.ConfirmCallback {
     @PostConstruct
     public void init() {
         rabbitTemplate.setConfirmCallback(this);
+        rabbitTemplate.setReturnCallback(this);
     }
 
     /**
@@ -43,5 +45,18 @@ public class MyCallBack implements RabbitTemplate.ConfirmCallback {
         } else {
             log.info("id为{}的消息发送失败，cause:{}", id, cause);
         }
+    }
+
+    /**
+     * 捕获消息从交换机路由到队列失败的回调方法
+     * @param message
+     * @param replyCode
+     * @param replyText
+     * @param exchange
+     * @param routingKey
+     */
+    @Override
+    public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
+        log.info("消息：{}，路由到队列失败，被交换机：{}退回，路由：{}，退回原因：{}", new String(message.getBody()), exchange, routingKey, replyText);
     }
 }
