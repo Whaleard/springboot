@@ -23,8 +23,8 @@ public class ProducerController {
         rabbitTemplate.convertAndSend(ConfirmConfig.CONFIRM_EXCHANGE_NAME, ConfirmConfig.CONFIRM_ROUTING_KEY, message, correlationData);
         log.info("发送消息：{}", message + "，路由键为：" + ConfirmConfig.CONFIRM_ROUTING_KEY);
 
-        CorrelationData correlationData2 = new CorrelationData("1");
-        rabbitTemplate.convertAndSend(ConfirmConfig.CONFIRM_EXCHANGE_NAME, ConfirmConfig.CONFIRM_ROUTING_KEY + "1", message, correlationData2);
+        CorrelationData correlationData2 = new CorrelationData("2");
+        rabbitTemplate.convertAndSend(ConfirmConfig.CONFIRM_EXCHANGE_NAME, ConfirmConfig.CONFIRM_ROUTING_KEY + "2", message, correlationData2);
 
         log.info("发送消息：{}", message + "，路由键为：" + ConfirmConfig.CONFIRM_ROUTING_KEY + "1");
     }
